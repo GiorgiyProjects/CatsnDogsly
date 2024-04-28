@@ -34,15 +34,18 @@ connected_clients: Dict[int, WebSocket] = {}
 
 async def fetch_images():
     while True:
-        await asyncio.sleep(IMAGE_GET_COOLDOWN_SECONDS / 2)
-        print("Fetching images...")
-        new_image_data = image_processor.process_new_image()
-        print("New image data:", new_image_data)
-        if new_image_data:
-            storage.save_img(new_image_data)
-            updated_image_data = storage.get_images()
-            await broadcast_data(json.dumps(updated_image_data))
-        await asyncio.sleep(IMAGE_GET_COOLDOWN_SECONDS / 2)
+        try:
+            print("Fetching images...")
+            new_image_data = image_processor.process_new_image()
+            print("New image data:", new_image_data)
+            if new_image_data:
+                storage.save_img(new_image_data)
+                updated_image_data = storage.get_images()
+                await broadcast_data(json.dumps(updated_image_data))
+            await asyncio.sleep(IMAGE_GET_COOLDOWN_SECONDS)
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
 
 
 async def cleanup_storage():
