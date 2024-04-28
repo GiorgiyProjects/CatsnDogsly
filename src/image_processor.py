@@ -10,7 +10,6 @@ import requests
 import io
 import base64
 import gensim.downloader as wv
-from sklearn.metrics.pairwise import cosine_similarity
 
 word_vectors = wv.load("glove-twitter-25")
 
