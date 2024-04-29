@@ -4,6 +4,7 @@ from datetime import datetime
 from enum import Enum
 from dotenv import load_dotenv
 import tensorflow as tf
+
 from PIL import Image
 import numpy as np
 import requests
