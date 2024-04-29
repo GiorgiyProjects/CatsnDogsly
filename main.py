@@ -37,7 +37,7 @@ async def fetch_images():
         try:
             print("Fetching images...")
             new_image_data = image_processor.process_new_image()
-            print("New image data:", new_image_data)
+            print("New image data obtained")
             if new_image_data:
                 storage.save_img(new_image_data)
                 updated_image_data = storage.get_images()
@@ -59,7 +59,6 @@ async def broadcast_data(image_data):
     print(connected_clients)
     for client_id, client in connected_clients.items():
         print("Sending image to client:", client_id)
-        print(image_data)
         await client.send_text(image_data)
 
 
@@ -78,12 +77,12 @@ async def websocket_endpoint(websocket: WebSocket):
         del connected_clients[id(websocket)]
 
 
-@app.get("/hello")
+@app.get("/api/hello")
 async def hello():
     return {"message": "Image broadcasted successfully."}
 
 
-@app.get("/recent_images")
+@app.get("/api/recent_images")
 async def get_images():
     try:
         response = storage.get_images()

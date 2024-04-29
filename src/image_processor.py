@@ -38,7 +38,7 @@ class ImageUrlGetter:
         retries = 0
         while retries < self.max_retries:
             try:
-                print("gonna get info")
+                print("Getting new picture from API")
                 response = requests.post(self.url, timeout=self.timeout)
                 print(response.status_code)
                 response.raise_for_status()
@@ -103,7 +103,7 @@ class CatsDogsClassifier:
                 cat_similarity = max(word_vectors.similarity(word, ImageType.cat.value), cat_similarity)
                 dog_similarity = max(word_vectors.similarity(word, ImageType.dog.value), dog_similarity)
             except KeyError:
-                print("not found vector")
+                print("Coudnt find cat or dogness")
                 continue
 
         print(dog_similarity, cat_similarity)
@@ -118,9 +118,6 @@ class CatsDogsClassifier:
             return ImageType.dog.value
         else:
             return ImageType.unknown.value
-
-    # def classify_label(self, input_string: str):
-    #    return ImageType.unknown
 
     def classify_image(self, image):
         image = image.resize((224, 224))
@@ -149,12 +146,10 @@ class ImageProcessor:
     def process_new_image(self):
         try:
             image = self.get_image()
-            print(image)
             if not image:
                 return None
 
             decoded_image = self.decode_image(image)
-            print(decoded_image)
             if not decoded_image:
                 return None
 
